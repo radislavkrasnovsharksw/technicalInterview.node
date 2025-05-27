@@ -43,14 +43,14 @@ export class SeedDB1748357834316 implements MigrationInterface {
 
     await queryRunner.manager.insert("speed_types", [
       { type: "fastFast (<100kW)" },
-      { type: "ultrafastUltra Fast (>100kW)" }
+      { status: "ultrafastUltra Fast (>100kW)" }
     ]);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.manager.delete("station_statuses", {});
-    await queryRunner.manager.delete("plug_types", {});
-    await queryRunner.manager.delete("installation_classes", {});
-    await queryRunner.manager.delete("speed_types", {});
+    await queryRunner.manager.clear("station_statuses");
+    await queryRunner.manager.clear("plug_types");
+    await queryRunner.manager.clear("installation_classes");
+    await queryRunner.manager.clear("speed_types");
   }
 }
