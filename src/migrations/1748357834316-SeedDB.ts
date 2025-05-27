@@ -43,7 +43,7 @@ export class SeedDB1748357834316 implements MigrationInterface {
 
     await queryRunner.manager.insert("speed_types", [
       { type: "fastFast (<100kW)" },
-      { status: "ultrafastUltra Fast (>100kW)" }
+      { type: "ultrafastUltra Fast (>100kW)" }
     ]);
   }
 
