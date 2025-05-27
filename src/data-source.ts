@@ -7,6 +7,7 @@ export const AppDataSource = new DataSource({
   type: "sqlite",
   database: "database.sqlite",
   synchronize: false,
+  migrationsRun: true,
   logging: false,
   entities: [
     isCompiled
