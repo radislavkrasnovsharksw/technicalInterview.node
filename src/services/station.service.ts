@@ -10,7 +10,7 @@ export class StationService {
     this.stationRepository = this.dataSource.getRepository(Station);
   }
 
-  public async getServices(
+  public async getStations(
     page: number = 1,
     limit: number = 20,
     order: "ASC" | "DESC" = "ASC"

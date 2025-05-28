@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import { injectable } from "tsyringe";
-import { StationService } from "../services/station.service";
+import { CachedStationService } from "../services/cache/cachedStation.service";
 
 @injectable()
 export class StationsController {
-  public constructor(private stationService: StationService) {}
+  public constructor(private stationService: CachedStationService) {}
 
   public get = async (
     req: Request,
@@ -17,7 +17,7 @@ export class StationsController {
       const order =
         (req.query.order as string)?.toUpperCase() === "DESC" ? "DESC" : "ASC";
 
-      const stationsResponse = await this.stationService.getServices(
+      const stationsResponse = await this.stationService.getStations(
         page,
         limit,
         order
