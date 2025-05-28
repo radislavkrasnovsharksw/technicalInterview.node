@@ -2,10 +2,27 @@ import { Request, Response, NextFunction } from "express";
 import { injectable } from "tsyringe";
 import { CachedStationService } from "../services/cache/cachedStation.service";
 import { BadRequestError } from "../errors/badRequest.error";
+import {
+  StationQueryValidator,
+  StationQueryParams
+} from "../validation/stationQuery.validation";
+import {
+  StationParamsValidator,
+  StationParams
+} from "../validation/stationParams.validator";
+import {
+  NearbyStationsQueryValidator,
+  NearbyStationsQueryParams
+} from "../validation/nearByStations.validation";
 
 @injectable()
 export class StationsController {
-  public constructor(private stationService: CachedStationService) {}
+  public constructor(
+    private stationService: CachedStationService,
+    private queryValidator: StationQueryValidator,
+    private paramsValidator: StationParamsValidator,
+    private nearbyQueryValidator: NearbyStationsQueryValidator
+  ) {}
 
   /**
    * @swagger
@@ -59,15 +76,14 @@ export class StationsController {
     next: NextFunction
   ): Promise<void> => {
     try {
-      const page = parseInt(req.query.page as string) || 1;
-      const limit = parseInt(req.query.limit as string) || 10;
-      const order =
-        (req.query.order as string)?.toUpperCase() === "DESC" ? "DESC" : "ASC";
+      const validatedQuery: StationQueryParams = this.queryValidator.validate(
+        req.query
+      );
 
       const stationsResponse = await this.stationService.getStations(
-        page,
-        limit,
-        order
+        validatedQuery.page,
+        validatedQuery.limit,
+        validatedQuery.order
       );
       res.status(200).json(stationsResponse);
     } catch (error) {
@@ -113,13 +129,10 @@ export class StationsController {
     next: NextFunction
   ): Promise<void> => {
     try {
-      const id = parseInt(req.params.id);
-
-      if (isNaN(id)) {
-        throw new BadRequestError("Invalid station ID");
-      }
-
-      const station = await this.stationService.getStation(id);
+      const validatedQuery: StationParams = this.paramsValidator.validate(
+        req.params
+      );
+      const station = await this.stationService.getStation(validatedQuery.id);
 
       if (!station) {
         throw new BadRequestError("Station not found");
@@ -218,26 +231,17 @@ export class StationsController {
     next: NextFunction
   ): Promise<void> => {
     try {
-      const lng = parseFloat(req.query.lng as string);
-      const lat = parseFloat(req.query.lat as string);
-      const radius = parseFloat(req.query.radius as string) || 5;
-      const page = parseInt(req.query.page as string) || 1;
-      const limit = parseInt(req.query.limit as string) || 10;
-      const order =
-        (req.query.order as string)?.toUpperCase() === "DESC" ? "DESC" : "ASC";
-
-      if (isNaN(lng) || isNaN(lat)) {
-        throw new BadRequestError("Invalid or missing lng/lat parameters");
-      }
+      const validatedQuery: NearbyStationsQueryParams =
+        this.nearbyQueryValidator.validate(req.query);
 
       const stationsResponse =
         await this.stationService.getStationByGeolocation(
-          page,
-          limit,
-          order,
-          lng,
-          lat,
-          radius
+          validatedQuery.page,
+          validatedQuery.limit,
+          validatedQuery.order,
+          validatedQuery.lng,
+          validatedQuery.lat,
+          validatedQuery.radius
         );
 
       res.json(stationsResponse);

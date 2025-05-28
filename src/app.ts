@@ -6,10 +6,16 @@ import publicRouter from './routes';
 import { NotFoundError } from './errors/notFound.error';
 import { errorHandlerMiddleware } from './middleware/errorHandler.middleware';
 import { SwaggerConfig } from './swagger/swaggerConfig';
+import { StationQueryValidator } from './validation/stationQuery.validation';
+import { StationParamsValidator } from './validation/stationParams.validator';
+import { NearbyStationsQueryValidator } from './validation/nearByStations.validation';
 
 const app: Application = express();
 const swaggerConfig = container.resolve(SwaggerConfig);
 swaggerConfig.setupSwagger(app);
+container.registerSingleton(StationQueryValidator);
+container.registerSingleton(StationParamsValidator);
+container.registerSingleton(NearbyStationsQueryValidator);
 
 app.use(cors());
 app.use(helmet());
