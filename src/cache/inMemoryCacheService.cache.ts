@@ -2,7 +2,7 @@ import { BaseCacheService } from "./baseCacheService.cache";
 import { ICacheEntry } from "../interfaces/cache/ICacheEntry.interface";
 
 export class InMemoryCacheService extends BaseCacheService {
-  protected cache: Map<string, ICacheEntry<any>> = new Map();
+  private cache: Map<string, ICacheEntry<any>> = new Map();
 
   public get<T>(key: string): T | void {
     const entry = this.cache.get(key);
@@ -32,13 +32,5 @@ export class InMemoryCacheService extends BaseCacheService {
 
   public clear(): void {
     this.cache.clear();
-  }
-
-  public buildKey(context: string, params: Record<string, any>): string {
-    const sortedParams = Object.entries(params)
-      .sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
-      .map(([key, value]) => `${key}_${String(value)}`)
-      .join(":");
-    return `${context}:${sortedParams}`;
   }
 }

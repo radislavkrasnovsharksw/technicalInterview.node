@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { injectable } from "tsyringe";
 import { CachedStationService } from "../services/cache/cachedStation.service";
+import { BadRequestError } from "../errors/badRequest.error";
 
 @injectable()
 export class StationsController {
@@ -37,15 +38,13 @@ export class StationsController {
       const id = parseInt(req.params.id);
 
       if (isNaN(id)) {
-        res.status(400).json({ message: "Invalid station ID" });
-        return;
+        throw new BadRequestError('Invalid station ID');
       }
 
       const station = await this.stationService.getStation(id);
 
       if (!station) {
-        res.status(404).json({ message: "Station not found" });
-        return;
+        throw new BadRequestError('Station not found');
       }
 
       res.status(200).json(station);
@@ -69,10 +68,7 @@ export class StationsController {
         (req.query.order as string)?.toUpperCase() === "DESC" ? "DESC" : "ASC";
 
       if (isNaN(lng) || isNaN(lat)) {
-        res
-          .status(400)
-          .json({ message: "Invalid or missing lng/lat parameters" });
-        return;
+        throw new BadRequestError('Invalid or missing lng/lat parameters');
       }
 
       const stationsResponse =
