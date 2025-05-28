@@ -16,11 +16,11 @@ import { Station } from "./station.entity";
 @Entity("plug_types")
 export class PlugType {
   @PrimaryGeneratedColumn({ unsigned: true })
-  id!: number;
+  id: number;
 
   @Column({ type: "text", nullable: false })
-  type!: string;
+  type: string;
 
   @ManyToMany(() => Station, (station) => station.plug_types)
-  stations!: Station[];
+  stations: Station[];
 }

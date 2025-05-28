@@ -85,7 +85,7 @@ export class StationsController {
         validatedQuery.limit,
         validatedQuery.order
       );
-      res.status(200).json(stationsResponse);
+      res.json(stationsResponse);
     } catch (error) {
       next(error);
     }
@@ -138,7 +138,7 @@ export class StationsController {
         throw new BadRequestError("Station not found");
       }
 
-      res.status(200).json(station);
+      res.json(station);
     } catch (error) {
       next(error);
     }

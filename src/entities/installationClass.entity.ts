@@ -16,11 +16,11 @@ import { Station } from "./station.entity";
 @Entity("installation_classes")
 export class InstallationClass {
   @PrimaryGeneratedColumn({ unsigned: true })
-  id!: number;
+  id: number;
 
   @Column({ type: "text", nullable: false })
-  class!: string;
+  class: string;
 
   @OneToMany(() => Station, (station) => station.installation_class)
-  stations!: Station[];
+  stations: Station[];
 }

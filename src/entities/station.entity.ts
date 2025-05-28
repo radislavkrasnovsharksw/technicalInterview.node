@@ -49,28 +49,28 @@ import { SpeedType } from "./speedType.entity";
 @Entity("stations")
 export class Station {
   @PrimaryGeneratedColumn({ unsigned: true })
-  id!: number;
+  id: number;
 
   @Column({ type: "text", nullable: false })
-  address!: string;
+  address: string;
 
   @Column({ type: "text", nullable: false })
-  station_id!: string;
+  station_id: string;
 
   @ManyToOne(() => StationStatus, (status) => status.stations, {
     nullable: false
   })
   @JoinColumn({ name: "status" })
-  status!: StationStatus;
+  status: StationStatus;
 
   @ManyToOne(() => SpeedType, (speedType) => speedType.stations, {
     nullable: false
   })
   @JoinColumn({ name: "speed_type" })
-  speed_type!: SpeedType;
+  speed_type: SpeedType;
 
   @Column({ type: "float", nullable: false })
-  power!: number;
+  power: number;
 
   @ManyToMany(() => PlugType, (plugType) => plugType.stations)
   @JoinTable({
@@ -84,10 +84,10 @@ export class Station {
       referencedColumnName: "id"
     }
   })
-  plug_types!: PlugType[];
+  plug_types: PlugType[];
 
   @Column({ type: "float", nullable: false })
-  availability!: number;
+  availability: number;
 
   @ManyToOne(
     () => InstallationClass,
@@ -95,19 +95,19 @@ export class Station {
     { nullable: false }
   )
   @JoinColumn({ name: "installation_class" })
-  installation_class!: InstallationClass;
+  installation_class: InstallationClass;
 
   @Column({
     type: "float",
     nullable: false,
     comment: "Longitude coordinate for map rendering"
   })
-  lng!: number;
+  lng: number;
 
   @Column({
     type: "float",
     nullable: false,
     comment: "Latitude coordinate for map rendering"
   })
-  lat!: number;
+  lat: number;
 }

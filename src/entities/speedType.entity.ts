@@ -16,11 +16,11 @@ import { Station } from "./station.entity";
 @Entity("speed_types")
 export class SpeedType {
   @PrimaryGeneratedColumn({ unsigned: true })
-  id!: number;
+  id: number;
 
   @Column({ type: "text", nullable: false })
-  type!: string;
+  type: string;
 
   @OneToMany(() => Station, (station) => station.speed_type)
-  stations!: Station[];
+  stations: Station[];
 }

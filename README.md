@@ -8,7 +8,7 @@ This project implements a Charging Station API. It allows you to:
 
 ## Installation Instructions  
 
-Before installing the project, copy the `.env_sample` file in the root directory and create a `.env` file with your environment variables configured.
+Before installing the project, copy the `.env.sample` file in the root directory and create a `.env` file with your environment variables configured.
 
 You can install and run the project using one of the following methods:
 
