@@ -19,7 +19,7 @@ export class CachedStationService {
     const cacheKey = this.cacheService.buildKey('getServices', { page, limit, order });
     const cachedData = this.cacheService.get<{ data: Station[]; total: number; page: number; limit: number }>(cacheKey);
 
-    if (cachedData) {
+    if (cachedData && cachedData?.data.length) {
       return cachedData;
     }
 
@@ -32,7 +32,7 @@ export class CachedStationService {
     const cacheKey = this.cacheService.buildKey('getStation', { id });
     const cachedData = this.cacheService.get<Station | null>(cacheKey);
 
-    if (cachedData !== undefined) {
+    if (cachedData) {
       return cachedData;
     }
     
@@ -53,7 +53,7 @@ export class CachedStationService {
     const cacheKey = this.cacheService.buildKey('getStationByGeolocation', params);
     const cachedData = this.cacheService.get<{ data: Station[]; total: number; page: number; limit: number }>(cacheKey);
 
-    if (cachedData) {
+    if (cachedData && cachedData?.data.length) {
       return cachedData;
     }
 
