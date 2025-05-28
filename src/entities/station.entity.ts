@@ -10,8 +10,42 @@ import {
 import { StationStatus } from "./stationStatus.entity";
 import { PlugType } from "./plugType.entity";
 import { InstallationClass } from "./installationClass.entity";
-import { SpeedType } from './speedType.entity';
+import { SpeedType } from "./speedType.entity";
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Station:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         address:
+ *           type: string
+ *         station_id:
+ *           type: string
+ *         power:
+ *           type: integer
+ *         availability:
+ *           type: integer
+ *         lng:
+ *           type: number
+ *           format: float
+ *         lat:
+ *           type: number
+ *           format: float
+ *         status:
+ *           $ref: '#/components/schemas/StationStatus'
+ *         speed_type:
+ *           $ref: '#/components/schemas/SpeedType'
+ *         plug_types:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/PlugType'
+ *         installation_class:
+ *           $ref: '#/components/schemas/InstallationClass'
+ */
 @Entity("stations")
 export class Station {
   @PrimaryGeneratedColumn({ unsigned: true })

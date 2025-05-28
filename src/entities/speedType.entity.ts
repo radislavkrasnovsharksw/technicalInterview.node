@@ -1,6 +1,18 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { Station } from "./station.entity";
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     SpeedType:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         type:
+ *           type: string
+ */
 @Entity("speed_types")
 export class SpeedType {
   @PrimaryGeneratedColumn({ unsigned: true })

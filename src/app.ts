@@ -1,11 +1,15 @@
 import express, { Application } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import { container } from "tsyringe";
 import publicRouter from './routes';
 import { NotFoundError } from './errors/notFound.error';
 import { errorHandlerMiddleware } from './middleware/errorHandler.middleware';
+import { SwaggerConfig } from './swagger/swaggerConfig';
 
 const app: Application = express();
+const swaggerConfig = container.resolve(SwaggerConfig);
+swaggerConfig.setupSwagger(app);
 
 app.use(cors());
 app.use(helmet());
